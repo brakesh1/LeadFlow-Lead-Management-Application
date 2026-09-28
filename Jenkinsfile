@@ -41,10 +41,10 @@ pipeline {
         stage('Compose Validation') {
             steps {
                 sh '''
-                    test -f /opt/leadflow/.env
+                    test -f /.env
 
                     docker compose \
-                      --env-file /opt/leadflow/.env \
+                      --env-file /.env \
                       config -q
 
                     echo "Compose configuration is valid."
@@ -56,7 +56,7 @@ pipeline {
             steps {
                 sh '''
                     docker compose \
-                      --env-file /opt/leadflow/.env \
+                      --env-file /.env \
                       build
                 '''
             }
@@ -66,7 +66,7 @@ pipeline {
             steps {
                 sh '''
                     docker compose \
-                      --env-file /opt/leadflow/.env \
+                      --env-file /.env \
                       up -d
                 '''
             }
@@ -76,7 +76,7 @@ pipeline {
             steps {
                 sh '''
                     docker compose \
-                      --env-file /opt/leadflow/.env \
+                      --env-file /.env \
                       ps
                 '''
             }
@@ -111,19 +111,19 @@ pipeline {
 
             sh '''
                 docker compose \
-                  --env-file /opt/leadflow/.env \
+                  --env-file /.env \
                   ps || true
 
                 docker compose \
-                  --env-file /opt/leadflow/.env \
+                  --env-file /.env \
                   logs --tail=100 backend || true
 
                 docker compose \
-                  --env-file /opt/leadflow/.env \
+                  --env-file /.env \
                   logs --tail=100 db || true
 
                 docker compose \
-                  --env-file /opt/leadflow/.env \
+                  --env-file /.env \
                   logs --tail=100 frontend || true
             '''
         }
