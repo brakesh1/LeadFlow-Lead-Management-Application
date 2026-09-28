@@ -41,10 +41,10 @@ pipeline {
         stage('Compose Validation') {
             steps {
                 sh '''
-                    test -f /.env
+                    test -f /LeadFlow-Lead-Management-Application/.env
 
                     docker compose \
-                      --env-file /.env \
+                      --env-file /LeadFlow-Lead-Management-Application/.env \
                       config -q
 
                     echo "Compose configuration is valid."
@@ -56,7 +56,7 @@ pipeline {
             steps {
                 sh '''
                     docker compose \
-                      --env-file /.env \
+                      --env-file /LeadFlow-Lead-Management-Application/.env \
                       build
                 '''
             }
@@ -66,7 +66,7 @@ pipeline {
             steps {
                 sh '''
                     docker compose \
-                      --env-file /.env \
+                      --env-file /LeadFlow-Lead-Management-Application/.env \
                       up -d
                 '''
             }
@@ -76,7 +76,7 @@ pipeline {
             steps {
                 sh '''
                     docker compose \
-                      --env-file /.env \
+                      --env-file /LeadFlow-Lead-Management-Application/.env \
                       ps
                 '''
             }
@@ -111,19 +111,19 @@ pipeline {
 
             sh '''
                 docker compose \
-                  --env-file /.env \
+                  --env-file /LeadFlow-Lead-Management-Application/.env \
                   ps || true
 
                 docker compose \
-                  --env-file /.env \
+                  --env-file /LeadFlow-Lead-Management-Application/.env \
                   logs --tail=100 backend || true
 
                 docker compose \
-                  --env-file /.env \
+                  --env-file /LeadFlow-Lead-Management-Application/.env \
                   logs --tail=100 db || true
 
                 docker compose \
-                  --env-file /.env \
+                  --env-file /LeadFlow-Lead-Management-Application/.env \
                   logs --tail=100 frontend || true
             '''
         }
