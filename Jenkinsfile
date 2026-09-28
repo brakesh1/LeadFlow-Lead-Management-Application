@@ -1,4 +1,9 @@
 pipeline {
+    
+    environment {
+    PROJECT_DIR = '/home/ubuntu/LeadFlow-Lead-Management-Application'
+    ENV_FILE = '/home/ubuntu/LeadFlow-Lead-Management-Application/.env'
+    }
 
     agent any
 
@@ -41,10 +46,10 @@ pipeline {
         stage('Compose Validation') {
             steps {
                 sh '''
-                    test -f /LeadFlow-Lead-Management-Application/.env
+                    test -f "$ENV_FILE"
 
                     docker compose \
-                      --env-file /LeadFlow-Lead-Management-Application/.env \
+                      --env-file "$ENV_FILE" \
                       config -q
 
                     echo "Compose configuration is valid."
@@ -56,7 +61,7 @@ pipeline {
             steps {
                 sh '''
                     docker compose \
-                      --env-file /LeadFlow-Lead-Management-Application/.env \
+                      --env-file "$ENV_FILE" \
                       build
                 '''
             }
@@ -66,7 +71,7 @@ pipeline {
             steps {
                 sh '''
                     docker compose \
-                      --env-file /LeadFlow-Lead-Management-Application/.env \
+                      --env-file "$ENV_FILE" \
                       up -d
                 '''
             }
@@ -76,7 +81,7 @@ pipeline {
             steps {
                 sh '''
                     docker compose \
-                      --env-file /LeadFlow-Lead-Management-Application/.env \
+                      --env-file "$ENV_FILE" \
                       ps
                 '''
             }
@@ -111,19 +116,19 @@ pipeline {
 
             sh '''
                 docker compose \
-                  --env-file /LeadFlow-Lead-Management-Application/.env \
+                  --env-file "$ENV_FILE" \
                   ps || true
 
                 docker compose \
-                  --env-file /LeadFlow-Lead-Management-Application/.env \
+                  --env-file "$ENV_FILE" \
                   logs --tail=100 backend || true
 
                 docker compose \
-                  --env-file /LeadFlow-Lead-Management-Application/.env \
+                  --env-file "$ENV_FILE" \
                   logs --tail=100 db || true
 
                 docker compose \
-                  --env-file /LeadFlow-Lead-Management-Application/.env \
+                  --env-file "$ENV_FILE" \
                   logs --tail=100 frontend || true
             '''
         }
